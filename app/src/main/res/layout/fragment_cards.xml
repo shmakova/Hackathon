@@ -1,138 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="14dp">
-        <ImageButton
-            android:id="@+id/cancel"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icn_close"
-            android:background="@null"
-            android:layout_marginRight="14dp"
-            android:layout_marginEnd="14dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/pbWordsProgress"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_gravity="center_vertical"
-            style="@android:style/Widget.ProgressBar.Horizontal"/>
-</LinearLayout>
-
-
-    <TextView
-        android:text="@string/cards_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-
-    <RelativeLayout
-        android:id="@+id/toDrag"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:text="@string/content"
-        android:layout_marginTop="50dp"
-        android:textSize="42sp"
-        android:background="@drawable/card_background"
-        android:scaleType="centerCrop"
-        android:layout_gravity="center" >
-
-        <ImageView
-            android:id="@+id/btnOk"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:orientation="vertical"
-            android:src="@drawable/btn_true">
-        </ImageView>
+            android:padding="14dp">
 
-        <ImageView
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
-            android:orientation="vertical"
-            android:src="@drawable/btn_false">
-        </ImageView>
+            <ImageButton
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="14dp"
+                android:layout_marginRight="14dp"
+                android:background="@null"
+                android:src="@drawable/icn_close" />
+
+            <ProgressBar
+                android:id="@+id/pbWordsProgress"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
 
 
         <TextView
-            android:id="@+id/tvCardWord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            />
-        <TextView
-            android:id="@+id/tvCardWordTranslate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/tvCardWord"
-            android:textAppearance="?android:textAppearanceLarge"
-            />
+            android:layout_gravity="center"
+            android:text="@string/cards_title" />
+
+        <RelativeLayout
+            android:id="@+id/toDrag"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/card_background"
+            android:scaleType="centerCrop"
+            android:text="@string/content"
+            android:textSize="42sp">
+
+            <ImageView
+                android:id="@+id/btnOk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:src="@drawable/btn_true"></ImageView>
+
+            <ImageView
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:src="@drawable/btn_false"></ImageView>
+
+
+            <TextView
+                android:id="@+id/tvCardWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textAppearance="?android:textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/tvCardWordTranslate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvCardWord"
+                android:layout_centerHorizontal="true"
+                android:textAppearance="?android:textAppearanceLarge" />
         </RelativeLayout>
 
 
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="210dp"
-        android:layout_height="63dp"
-        android:background="#323232"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal">
-        <ImageView
-            android:id="@+id/ivSlide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icn_slide"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            />
+        <RelativeLayout
+            android:layout_width="210dp"
+            android:layout_height="63dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="#323232"
+            android:orientation="vertical">
 
-        <ImageView
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/ivSlide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:src="@drawable/icn_cursor_pointer"
-            />
+            <ImageView
+                android:id="@+id/ivSlide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/icn_slide" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/light_grey"
-            android:text="Помню"
-            android:gravity="center_vertical"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/ivSlide"
-            android:layout_toRightOf="@id/ivSlide"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivSlide"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/icn_cursor_pointer" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Забыл"
-            android:textColor="@color/light_grey"
-            android:layout_toLeftOf="@id/ivSlide"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/ivSlide"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/ivSlide"
+                android:layout_toRightOf="@id/ivSlide"
+                android:gravity="center_vertical"
+                android:text="Помню"
+                android:textColor="@color/light_grey" />
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/ivSlide"
+                android:layout_toStartOf="@id/ivSlide"
+                android:text="Забыл"
+                android:textColor="@color/light_grey" />
 
+        </RelativeLayout>
 
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
