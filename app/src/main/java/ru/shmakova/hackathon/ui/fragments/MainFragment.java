@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +22,7 @@ import ru.shmakova.hackathon.R;
 import ru.shmakova.hackathon.ui.activities.MainActivity;
 import ru.shmakova.hackathon.ui.adapters.MenuAdapter;
 import ru.shmakova.hackathon.utils.AppConfig;
+import timber.log.Timber;
 
 
 public class MainFragment extends BaseFragment {
@@ -29,6 +32,9 @@ public class MainFragment extends BaseFragment {
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
+
+    @BindView(R.id.btnSettings)
+    ImageButton btnSettings;
 
     private MainActivity activity;
 
@@ -42,16 +48,19 @@ public class MainFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupToolbar();
-        activity = ((MainActivity)getActivity());
+        btnSettings.setOnClickListener(v ->{
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.main_frame_layout, new SettingsFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+        activity = ((MainActivity) getActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
         List<String> menuItems = Arrays.asList(AppConfig.menuItems);
-        MenuAdapter menuAdapter = new MenuAdapter(menuItems, new MenuAdapter.MenuViewHolder.OnItemCLickListener() {
-            @Override
-            public void onItemClick(int position) {
-                activity.onMenuItemClick(position);
-            }
+        MenuAdapter menuAdapter = new MenuAdapter(menuItems, p -> {
+            activity.onMenuItemClick(p);
         });
         recyclerView.setAdapter(menuAdapter);
     }
@@ -64,6 +73,7 @@ public class MainFragment extends BaseFragment {
             actionBar.setDisplayShowTitleEnabled(false);
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();

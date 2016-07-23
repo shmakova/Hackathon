@@ -1,78 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_coordinator_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_layout"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:fitsSystemWindows="true">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <FrameLayout
                 android:id="@+id/banner"
-                android:layout_marginTop="@dimen/size_medium_56"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
+                android:layout_marginTop="@dimen/size_medium_56"
                 android:background="@drawable/banner_img"
+                android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax">
 
                 <TextView
-                    android:text="Выберите режим обучения"
-                    android:textColor="@color/dark_grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|center_horizontal"
-                    android:layout_marginTop="@dimen/spacing_medium_32"/>
+                    android:layout_marginTop="@dimen/spacing_medium_32"
+                    android:text="Выберите режим обучения"
+                    android:textColor="@color/dark_grey" />
 
                 <Button xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/fast_training_btn"
-                        android:text="@string/fast_training"
-                        android:layout_width="@dimen/button_width"
-                        android:layout_height="@dimen/size_normal_44"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:background="@drawable/button_bg_rounded_corners"
-                        android:textSize="@dimen/font_small_16"
-                        android:textColor="@color/dark_grey"
-                        android:textAllCaps="true"
-                        android:layout_gravity="bottom|center_horizontal"
-                        android:layout_marginBottom="@dimen/spacing_normal_16"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"/>
+                    android:id="@+id/fast_training_btn"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/size_normal_44"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="@dimen/spacing_normal_16"
+                    android:background="@drawable/button_bg_rounded_corners"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:text="@string/fast_training"
+                    android:textAllCaps="true"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/font_small_16" />
             </FrameLayout>
 
             <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-                                               xmlns:app="http://schemas.android.com/apk/res-auto"
-                                               xmlns:tools="http://schemas.android.com/tools"
-                                               android:id="@+id/toolbar"
-                                               android:layout_width="match_parent"
-                                               android:layout_height="?attr/actionBarSize"
-                                               android:background="?attr/colorPrimary"
-                                               app:popupTheme="@style/AppTheme.PopupOverlay"
-                                               tools:ignore="Overdraw"
-                                               app:layout_collapseMode="pin">
-                <TextView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                tools:ignore="Overdraw">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/learning_mode_text"
-                    android:id="@+id/toolbar_title"
-                    android:textSize="@dimen/font_medium_20"
-                    android:textColor="@color/dark_grey"
-                    android:textAlignment="center"/>
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/learning_mode_text"
+                        android:textAlignment="center"
+                        android:textColor="@color/dark_grey"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/font_medium_20" />
+
+                    <ImageButton
+                        android:id="@+id/btnSettings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:foregroundGravity="right"
+                        android:src="@drawable/icn_settings"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="14dp"/>
+                </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -83,7 +101,7 @@
         android:id="@+id/main_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
 </android.support.design.widget.CoordinatorLayout>

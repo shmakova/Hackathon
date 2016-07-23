@@ -29,6 +29,7 @@ public class AnimationTouchListener implements View.OnTouchListener {
     private static float MAX_ANGLE = 25;
     private static int ROLL_BACK_DURATION = 200;
     private final ChoiceCallback callback;
+    private TextView tvWord;
 
     private float actionTrashHold;
 
@@ -51,8 +52,8 @@ public class AnimationTouchListener implements View.OnTouchListener {
         btnCancel.setAlpha(0);
         btnOk.setAlpha(0);
 
-        TextView tvWord = (TextView) rootView.findViewById(R.id.tvCardWord);
-        word = (String) (tvWord.getText());
+        tvWord = (TextView) rootView.findViewById(R.id.tvCardWord);
+
 
 
         Point size = new Point();
@@ -65,6 +66,7 @@ public class AnimationTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        word = (String) tvWord.getText();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (toDragViewStartX == 0) {
