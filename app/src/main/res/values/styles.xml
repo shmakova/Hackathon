@@ -35,4 +35,10 @@
         <item name="cardBackgroundColor">@color/light_grey</item>
     </style>
 
+    <style name="success_text">
+        <item name="android:textColor">@color/success</item>
+    </style>
+    <style name="cancel_text">
+        <item name="android:textColor">@color/cancel</item>
+    </style>
 </resources>

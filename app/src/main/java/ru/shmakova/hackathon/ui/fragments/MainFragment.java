@@ -14,6 +14,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import ru.shmakova.hackathon.R;
+import ru.shmakova.hackathon.ui.activities.MainActivity;
 import ru.shmakova.hackathon.ui.adapters.MenuAdapter;
 import ru.shmakova.hackathon.utils.AppConfig;
 import timber.log.Timber;
@@ -38,7 +39,7 @@ public class MainFragment extends BaseFragment {
         MenuAdapter menuAdapter = new MenuAdapter(menuItems, new MenuAdapter.MenuViewHolder.OnItemCLickListener() {
             @Override
             public void onItemClick(int position) {
-                Timber.d(menuItems.get(position));
+                ((MainActivity)getActivity()).menuClicked(position);
             }
         });
         recyclerView.setAdapter(menuAdapter);
