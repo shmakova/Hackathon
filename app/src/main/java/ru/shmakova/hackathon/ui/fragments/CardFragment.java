@@ -51,7 +51,6 @@ public class CardFragment extends BaseFragment {
 
             callback = (ChoiceCallback) getActivity();
 
-            Log.d(LOG_TAG,ARG_WORD_NUM + " " + ARG_WORD_NUM_TOTAL);
             pbWordsProgress.setMax(wordsTotal);
             pbWordsProgress.setProgress(wordNum);
             tvWord.setText(word);

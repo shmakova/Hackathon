@@ -10,9 +10,21 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.shmakova.hackathon.R;
+import ru.shmakova.hackathon.network.DictionaryService;
+import ru.shmakova.hackathon.network.ServiceGenerator;
+import ru.shmakova.hackathon.network.models.Lookup;
+import ru.shmakova.hackathon.utils.AppConfig;
 
 public class AnimationTouchListener implements View.OnTouchListener {
+
+    private static String LOG_TAG = AnimationTouchListener.class.getName();
     private static float MAX_ANGLE = 25;
     private static int ROLL_BACK_DURATION = 200;
     private final ChoiceCallback callback;
@@ -29,7 +41,6 @@ public class AnimationTouchListener implements View.OnTouchListener {
     private View btnOk;
     private String word;
 
-
     public AnimationTouchListener(WindowManager manager, View rootView, @NonNull ChoiceCallback callback) {
         Display display = manager.getDefaultDisplay();
         btnCancel = rootView.findViewById(R.id.btnCancel);
@@ -42,7 +53,27 @@ public class AnimationTouchListener implements View.OnTouchListener {
         tvWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Tag", "Clicked!!");
+                DictionaryService service = ServiceGenerator.createService(DictionaryService.class);
+                Map<String, String> map = new HashMap<>();
+                map.put("key", AppConfig.DICTIONARY_API_KEY);
+                map.put("lang","en-ru");
+                map.put("text",word);
+                Call<Lookup> call = service.lookup(map);
+                call.enqueue(new Callback<Lookup>() {
+                    @Override
+                    public void onResponse(Call<Lookup> call, Response<Lookup> response) {
+                        Log.d(LOG_TAG, "Response : " + response.body());
+
+                        ((TextView)rootView.findViewById(R.id.tvCardWordTranslate)).setText(response.body().def.get(0).tr.get(0).text);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Lookup> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+
             }
         });
 

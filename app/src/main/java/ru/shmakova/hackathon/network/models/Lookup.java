@@ -15,7 +15,7 @@ public class Lookup {
 
     @SerializedName("head")
     @Expose
-    public String head;
+    public Object head;
     @SerializedName("def")
     @Expose
     public List<Def> def = new ArrayList<Def>();

@@ -14,6 +14,7 @@ public class CardsResultFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View result = inflater.inflate(R.layout.fragment_cards_result,container, false);
+
         return result;
     }
 }

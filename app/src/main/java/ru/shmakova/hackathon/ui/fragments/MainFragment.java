@@ -24,6 +24,8 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.main_menu)
     RecyclerView recyclerView;
 
+    private MainActivity activity;
+
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,17 +35,23 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        activity = ((MainActivity)getActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+
         List<String> menuItems = Arrays.asList(AppConfig.menuItems);
         MenuAdapter menuAdapter = new MenuAdapter(menuItems, new MenuAdapter.MenuViewHolder.OnItemCLickListener() {
             @Override
             public void onItemClick(int position) {
-                ((MainActivity)getActivity()).menuClicked(position);
+                activity.menuClicked(position);
             }
         });
         recyclerView.setAdapter(menuAdapter);
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        activity.reset();
+    }
 }
