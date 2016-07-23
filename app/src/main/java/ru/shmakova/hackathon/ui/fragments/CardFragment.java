@@ -26,17 +26,12 @@ public class CardFragment extends BaseFragment {
     public static final String ARG_WORD = "word";
     public static final String ARG_WORD_NUM = "word_num";
     public static final String ARG_WORD_NUM_TOTAL = "word_num_total";
-    public static final String ARGS_CALLBACK = "callback";
 
-    private int wordNum;
-    private int wordsTotal;
-    private String word;
     private ChoiceCallback callback;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View result = inflater.inflate(R.layout.fragment_cards, container, false);
 
         ProgressBar pbWordsProgress = (ProgressBar) result.findViewById(R.id.pbWordsProgress);
@@ -44,21 +39,23 @@ public class CardFragment extends BaseFragment {
         View toDrag = result.findViewById(R.id.toDrag);
 
         TextView tvWord = (TextView) toDrag.findViewById(R.id.tvCardWord);
+        int wordNum;
+        int wordsTotal;
+        String word;
 
         Bundle args = getArguments();
         if (args != null) {
             wordNum = args.getInt(ARG_WORD_NUM);
             wordsTotal = args.getInt(ARG_WORD_NUM_TOTAL);
             word = args.getString(ARG_WORD);
-            callback = (ChoiceCallback) args.getSerializable(ARGS_CALLBACK);
+
+            callback = (ChoiceCallback) getActivity();
 
             Log.d(LOG_TAG,ARG_WORD_NUM + " " + ARG_WORD_NUM_TOTAL);
             pbWordsProgress.setMax(wordsTotal);
             pbWordsProgress.setProgress(wordNum);
             tvWord.setText(word);
         }
-
-        List<String> words = asList("test", "cat", "LOL");
 
         toDrag.setOnTouchListener(
                 new AnimationTouchListener((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE), toDrag, callback)
