@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Hackathon</string>
     <string name="content">Hello</string>
+    <string name="learning_mode_text">Режим обучения</string>
+    <string name="fast_training">Быстрая тренировка</string>
+    <string name="cards">Карточки</string>
 
 </resources>

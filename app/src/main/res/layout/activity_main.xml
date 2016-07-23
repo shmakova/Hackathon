@@ -4,6 +4,7 @@
                                         android:id="@+id/main_drawer_layout"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
+                                        android:background="@color/light_grey"
                                         tools:context="ru.shmakova.hackathon.ui.activities.MainActivity">>
 
     <LinearLayout

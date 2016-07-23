@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:card_view="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/light_grey">
+    <FrameLayout
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/banner_img">
+
+        <TextView
+            android:text="Выберите режим обучения"
+            android:textColor="@color/dark_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="@dimen/spacing_medium_32"/>
+
+        <Button xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fast_training_btn"
+                android:text="@string/fast_training"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/size_normal_44"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@drawable/button_bg_rounded_corners"
+                android:textSize="@dimen/font_small_16"
+                android:textColor="@color/dark_grey"
+                android:textAllCaps="true"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="@dimen/spacing_normal_16"/>
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/main_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -39,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Nullable
