@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     // Declared in dependencies.gradle in the root of the project.
@@ -112,6 +113,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.4.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.1'
     compile 'com.daprlabs.aaron:cardstack:0.3.0'
+
 }
 
 configurations.all {

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,7 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,26 +22,31 @@ import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.shmakova.hackathon.App;
 import ru.shmakova.hackathon.R;
+import ru.shmakova.hackathon.StatsHandler;
 import ru.shmakova.hackathon.managers.DataManager;
 import ru.shmakova.hackathon.model.CardChoice;
-import ru.shmakova.hackathon.model.WordsContainer;
 import ru.shmakova.hackathon.network.DictionaryService;
 import ru.shmakova.hackathon.network.ServiceGenerator;
 import ru.shmakova.hackathon.network.models.Lookup;
 import ru.shmakova.hackathon.ui.touch.AnimationTouchListener;
 import ru.shmakova.hackathon.ui.touch.ChoiceCallback;
 import ru.shmakova.hackathon.utils.AppConfig;
+import timber.log.Timber;
 
 public class CardFragment extends BaseFragment implements ChoiceCallback {
 
     private static final String LOG_TAG = CardFragment.class.getName();
+    public static final String ARG_CURRENT_COUNTER = "currentCounter";
+    public static final String ARG_WORDS = "words";
 
     private int currentWordIndex;
     private ArrayList<CardChoice> cardChoices;
     private List<String> currentWords;
 
     private FragmentManager fm;
+    private StatsHandler handler;
 
     @BindView(R.id.tvCardWord)
     TextView tvWord;
@@ -66,9 +68,10 @@ public class CardFragment extends BaseFragment implements ChoiceCallback {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View result = inflater.inflate(R.layout.fragment_cards, container, false);
 
-        cardChoices = new ArrayList<>();
+        handler = App.from(getContext()).getStatsHandler();
         fm = getFragmentManager();
 
+        cardChoices = new ArrayList<>();
         currentWords = DataManager.getInstance().getPreferenceManager().getRandomWords(10);
         return result;
     }
@@ -80,40 +83,61 @@ public class CardFragment extends BaseFragment implements ChoiceCallback {
         pbWordsProgress.setProgress(currentWordIndex);
         tvWord.setText(currentWords.get(currentWordIndex));
 
-        vCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        vCancel.setOnClickListener(v -> {
                 fm.beginTransaction()
                         .replace(R.id.main_frame_layout, new MainFragment())
                         .commit();
-            }
         });
 
 
-        tvWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DictionaryService service = ServiceGenerator.createService(DictionaryService.class);
-                Map<String, String> map = new HashMap<>();
-                map.put("key", AppConfig.DICTIONARY_API_KEY);
-                map.put("lang", "en-ru");
-                map.put("text", currentWords.get(currentWordIndex));
-                Call<Lookup> call = service.lookup(map);
-                call.enqueue(new Callback<Lookup>() {
-                    @Override
-                    public void onResponse(Call<Lookup> call, Response<Lookup> response) {
-                        tvCardWordTranslate.setText(response.body().def.get(0).tr.get(0).text);
-                    }
-                    @Override
-                    public void onFailure(Call<Lookup> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
-            }
+        tvWord.setOnClickListener(v -> {
+            DictionaryService service = ServiceGenerator.createService(DictionaryService.class);
+            Map<String, String> map = new HashMap<>();
+            map.put("key", AppConfig.DICTIONARY_API_KEY);
+            map.put("lang", "en-ru");
+            map.put("text", currentWords.get(currentWordIndex));
+            Call<Lookup> call = service.lookup(map);
+            call.enqueue(new Callback<Lookup>() {
+                @Override
+                public void onResponse(Call<Lookup> call, Response<Lookup> response) {
+                    String firstTranslation = response.body().def.get(0).tr.get(0).text;
+                    tvCardWordTranslate.setText(firstTranslation);
+                }
+
+                @Override
+                public void onFailure(Call<Lookup> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+
         });
-        toDrag.setOnTouchListener(
-                new AnimationTouchListener((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE), toDrag, this)
-        );
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        toDrag.setOnTouchListener(new AnimationTouchListener(windowManager, toDrag, this));
+
+    }
+
+    @Override
+    public void result(CardChoice choice) {
+        cardChoices.add(choice);
+        handler.add(choice);
+        nextStep();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(ARG_CURRENT_COUNTER, currentWordIndex);
+        outState.putStringArrayList(ARG_WORDS, (ArrayList<String>) currentWords);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState  != null){
+            currentWordIndex = savedInstanceState.getInt(ARG_CURRENT_COUNTER);
+            currentWords = savedInstanceState.getStringArrayList(ARG_WORDS);
+            System.out.println();
+        }
 
     }
 
@@ -136,7 +160,6 @@ public class CardFragment extends BaseFragment implements ChoiceCallback {
                     .replace(R.id.main_frame_layout, fragment)
                     .commit();
         }
-
     }
 
     private int getKnowsWords() {
@@ -149,30 +172,4 @@ public class CardFragment extends BaseFragment implements ChoiceCallback {
         return counter;
     }
 
-    @Override
-    public void result(CardChoice choice) {
-        cardChoices.add(choice);
-        nextStep();
-    }
-
-    private List<String> randomWords(List<String> allWords, int count) {
-        List<String> result = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            addWord(allWords, result);
-        }
-        return result;
-    }
-
-    private void addWord(List<String> all, List<String> result) {
-        if (all.size() == result.size()) {
-            return;
-        }
-        int random = (int) (Math.random() * all.size());
-        String pickedWord = all.get(random);
-        if (!result.contains(pickedWord)) {
-            result.add(pickedWord);
-        } else {
-            addWord(all, result);
-        }
-    }
 }

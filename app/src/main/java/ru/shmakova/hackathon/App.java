@@ -16,6 +16,7 @@ public class App extends Application {
     public static SharedPreferences sharedPreferences;
     private static Context context;
     private ApplicationComponent applicationComponent;
+    private StatsHandler statsHandler;
 
     // Prevent need in a singleton (global) reference to the application object.
     @NonNull
@@ -29,6 +30,7 @@ public class App extends Application {
         applicationComponent = prepareApplicationComponent().build();
         context = getApplicationContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        statsHandler = new StatsHandler();
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
@@ -46,11 +48,19 @@ public class App extends Application {
         return applicationComponent;
     }
 
+    public StatsHandler getStatsHandler(){
+        return statsHandler;
+    }
+
     public static SharedPreferences getSharedPreferences() {
         return sharedPreferences;
     }
 
     public static Context getContext() {
         return context;
+    }
+
+    public static App from(Context context){
+        return (App)context.getApplicationContext();
     }
 }

@@ -29,6 +29,8 @@ buildscript {
 
         // Check latest version of dependencies, task: dependencyUpdates
         classpath gradlePlugins.versions
+
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
     }
 
     // Part of workaround for Lint + Retrolambda.
