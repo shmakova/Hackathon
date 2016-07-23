@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Hackathon</string>
     <string name="content">Hello</string>
+    <string name="forget">Забыл</string>
+    <string name="remembered">Запомнил</string>
+    <string name="cards_title">РАССОРТИРУЙТЕ КАРТОЧКИ</string>
+    <string name="cards_end_title">Повторение закончено!</string>
 
 </resources>
