@@ -1,0 +1,131 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    // Declared in dependencies.gradle in the root of the project.
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    defaultConfig {
+        applicationId 'ru.shmakova.hackathon'
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.code // Notice that you may want to use BUILD_NUMBER from CI in real project with own CI.
+        versionName versions.name
+
+        // Make generated apks contain version name and code.
+        archivesBaseName = "app-${versions.name}-${versions.code}"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    signingConfigs {
+        hackathon {
+            storeFile file('keystore.jks')
+            storePassword 'shmakova'
+            keyAlias 'shmakova'
+            keyPassword 'shmakova'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.hackathon
+            applicationIdSuffix '.debug'
+
+            // Enables code coverage with Jacoco only for instrumentation tests.
+            // Coverage for JVM tests done by code_quality_tools/jacoco.gradle.
+            testCoverageEnabled true
+        }
+
+        release {
+            signingConfig signingConfigs.hackathon
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
+
+            // Enables code coverage with Jacoco only for instrumentation tests.
+            // Coverage for JVM tests done by code_quality_tools/jacoco.gradle.
+            testCoverageEnabled true
+        }
+    }
+
+    // This allows us see tests execution progress in the output on the CI.
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            exceptionFormat 'full'
+        }
+    }
+}
+
+// Libraries declared in dependencies.gradle in the root of the project
+dependencies {
+    compile libraries.dagger
+    apt libraries.daggerCompiler
+
+    compile libraries.supportAnnotations
+    compile libraries.supportAppCompat
+    compile libraries.supportDesign
+    compile libraries.supportRecyclerView
+    compile libraries.supportCardView
+    compile libraries.supportPreference
+
+    compile libraries.butterKnife
+    apt libraries.butterKnifeCompiler
+
+    compile libraries.timber
+
+    compile (libraries.retrofit) {
+        exclude module: 'okhttp'
+    }
+    compile libraries.converterGson
+    compile libraries.gson
+    compile libraries.okhttp
+    compile libraries.glide
+    compile libraries.okhttpLogging
+
+    testCompile libraries.junit
+    testCompile libraries.robolectric
+    testCompile libraries.assertJ
+    testCompile libraries.equalsVerifier
+    testCompile libraries.mockitoCore
+    testCompile libraries.devMetricsNoOp
+
+    androidTestCompile libraries.supportTestRunner
+    androidTestCompile libraries.supportTestRules
+    androidTestCompile libraries.espressoCore
+    androidTestCompile(libraries.espressoContrib) {
+        // Causes IncompatibleClassChangeError. As always…
+        exclude module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'support-v4'
+    }
+    compile 'javax.annotation:javax.annotation-api:1.2'
+}
+
+configurations.all {
+    resolutionStrategy {
+        // Force our version of support-annotations, we have a conflict between app and androidTest dependency resolution.
+        force libraries.supportAnnotations
+    }
+}
+
+// Check if the build requires dex count
+def withDexcount = project.hasProperty('withDexcount')
+if (withDexcount) {
+    apply plugin: 'com.getkeepsafe.dexcount'
+
+    dexcount {
+        format = 'list'
+        includeFieldCount = true
+        includeTotalMethodCount = true
+        verbose = false
+        maxTreeDepth = Integer.MAX_VALUE
+    }
+}
