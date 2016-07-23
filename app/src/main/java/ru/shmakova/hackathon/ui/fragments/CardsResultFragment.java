@@ -27,7 +27,6 @@ public class CardsResultFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_cards_result,container, false);
     }
 
@@ -39,14 +38,17 @@ public class CardsResultFragment extends BaseFragment {
             int totalWords = args.getInt(ARG_WORDS);
             int knownWords = args.getInt(ARG_WORDS_KNOWN);
             tvResult.setText("Вы запомнили "+ knownWords +" из " +  totalWords);
-
         }
         btnReturnToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).reset();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.main_frame_layout, new MainFragment())
+                        .commit();
             }
         });
+
+
 
     }
 }

@@ -53,32 +53,7 @@ public class AnimationTouchListener implements View.OnTouchListener {
 
         TextView tvWord = (TextView) rootView.findViewById(R.id.tvCardWord);
         word = (String) (tvWord.getText());
-        tvWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DictionaryService service = ServiceGenerator.createService(DictionaryService.class);
-                Map<String, String> map = new HashMap<>();
-                map.put("key", AppConfig.DICTIONARY_API_KEY);
-                map.put("lang", "en-ru");
-                map.put("text", word);
-                Call<Lookup> call = service.lookup(map);
-                call.enqueue(new Callback<Lookup>() {
-                    @Override
-                    public void onResponse(Call<Lookup> call, Response<Lookup> response) {
-                        Log.d(LOG_TAG, "Response : " + response.body());
 
-                        ((TextView) rootView.findViewById(R.id.tvCardWordTranslate)).setText(response.body().def.get(0).tr.get(0).text);
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Lookup> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
-
-            }
-        });
 
         Point size = new Point();
         display.getSize(size);
