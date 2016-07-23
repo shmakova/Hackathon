@@ -10,5 +10,6 @@
     <string name="say_word">Произнесите слово</string>
     <string name="cards_end_title">Упражнение закончено!</string>
     <string name="btn_ok">OK!</string>
+    <string name="result_message">Вы запомнили %1$s из %2$s</string>
 
 </resources>

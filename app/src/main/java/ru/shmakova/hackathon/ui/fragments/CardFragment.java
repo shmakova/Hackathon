@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,7 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +25,6 @@ import retrofit2.Response;
 import ru.shmakova.hackathon.R;
 import ru.shmakova.hackathon.managers.DataManager;
 import ru.shmakova.hackathon.model.CardChoice;
-import ru.shmakova.hackathon.model.WordsContainer;
 import ru.shmakova.hackathon.network.DictionaryService;
 import ru.shmakova.hackathon.network.ServiceGenerator;
 import ru.shmakova.hackathon.network.models.Lookup;
@@ -80,41 +76,43 @@ public class CardFragment extends BaseFragment implements ChoiceCallback {
         pbWordsProgress.setProgress(currentWordIndex);
         tvWord.setText(currentWords.get(currentWordIndex));
 
-        vCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        vCancel.setOnClickListener(v -> {
                 fm.beginTransaction()
                         .replace(R.id.main_frame_layout, new MainFragment())
                         .commit();
-            }
         });
 
 
-        tvWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DictionaryService service = ServiceGenerator.createService(DictionaryService.class);
-                Map<String, String> map = new HashMap<>();
-                map.put("key", AppConfig.DICTIONARY_API_KEY);
-                map.put("lang", "en-ru");
-                map.put("text", currentWords.get(currentWordIndex));
-                Call<Lookup> call = service.lookup(map);
-                call.enqueue(new Callback<Lookup>() {
-                    @Override
-                    public void onResponse(Call<Lookup> call, Response<Lookup> response) {
-                        tvCardWordTranslate.setText(response.body().def.get(0).tr.get(0).text);
-                    }
-                    @Override
-                    public void onFailure(Call<Lookup> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
-            }
-        });
-        toDrag.setOnTouchListener(
-                new AnimationTouchListener((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE), toDrag, this)
-        );
+        tvWord.setOnClickListener(v -> {
+            DictionaryService service = ServiceGenerator.createService(DictionaryService.class);
+            Map<String, String> map = new HashMap<>();
+            map.put("key", AppConfig.DICTIONARY_API_KEY);
+            map.put("lang", "en-ru");
+            map.put("text", currentWords.get(currentWordIndex));
+            Call<Lookup> call = service.lookup(map);
+            call.enqueue(new Callback<Lookup>() {
+                @Override
+                public void onResponse(Call<Lookup> call, Response<Lookup> response) {
+                    String firstTranslation = response.body().def.get(0).tr.get(0).text;
+                    tvCardWordTranslate.setText(firstTranslation);
+                }
 
+                @Override
+                public void onFailure(Call<Lookup> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+
+        });
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        toDrag.setOnTouchListener(new AnimationTouchListener(windowManager, toDrag, this));
+
+    }
+
+    @Override
+    public void result(CardChoice choice) {
+        cardChoices.add(choice);
+        nextStep();
     }
 
     private void nextStep() {
@@ -149,30 +147,4 @@ public class CardFragment extends BaseFragment implements ChoiceCallback {
         return counter;
     }
 
-    @Override
-    public void result(CardChoice choice) {
-        cardChoices.add(choice);
-        nextStep();
-    }
-
-    private List<String> randomWords(List<String> allWords, int count) {
-        List<String> result = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            addWord(allWords, result);
-        }
-        return result;
-    }
-
-    private void addWord(List<String> all, List<String> result) {
-        if (all.size() == result.size()) {
-            return;
-        }
-        int random = (int) (Math.random() * all.size());
-        String pickedWord = all.get(random);
-        if (!result.contains(pickedWord)) {
-            result.add(pickedWord);
-        } else {
-            addWord(all, result);
-        }
-    }
 }

@@ -37,15 +37,12 @@ public class CardsResultFragment extends BaseFragment {
         if(args != null){
             int totalWords = args.getInt(ARG_WORDS);
             int knownWords = args.getInt(ARG_WORDS_KNOWN);
-            tvResult.setText("Вы запомнили "+ knownWords +" из " +  totalWords);
+            tvResult.setText(String.format(getString(R.string.result_message), knownWords, totalWords));
         }
-        btnReturnToMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnReturnToMenu.setOnClickListener(v -> {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.main_frame_layout, new MainFragment())
                         .commit();
-            }
         });
 
 
