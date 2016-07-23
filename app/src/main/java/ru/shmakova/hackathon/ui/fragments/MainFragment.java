@@ -35,6 +35,8 @@ public class MainFragment extends BaseFragment {
     CollapsingToolbarLayout collapsingToolbarLayout;
 
 
+    private MainActivity activity;
+
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,13 +47,15 @@ public class MainFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupToolbar();
+        activity = ((MainActivity)getActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+
         List<String> menuItems = Arrays.asList(AppConfig.menuItems);
         MenuAdapter menuAdapter = new MenuAdapter(menuItems, new MenuAdapter.MenuViewHolder.OnItemCLickListener() {
             @Override
             public void onItemClick(int position) {
-                ((MainActivity)getActivity()).menuClicked(position);
+                activity.menuClicked(position);
             }
         });
         recyclerView.setAdapter(menuAdapter);
@@ -64,5 +68,10 @@ public class MainFragment extends BaseFragment {
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        activity.reset();
     }
 }
