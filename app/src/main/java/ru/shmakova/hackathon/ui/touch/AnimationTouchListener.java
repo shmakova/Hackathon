@@ -17,6 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.shmakova.hackathon.R;
+import ru.shmakova.hackathon.model.CardChoice;
 import ru.shmakova.hackathon.network.DictionaryService;
 import ru.shmakova.hackathon.network.ServiceGenerator;
 import ru.shmakova.hackathon.network.models.Lookup;
@@ -39,49 +40,26 @@ public class AnimationTouchListener implements View.OnTouchListener {
 
     private View btnCancel;
     private View btnOk;
+    private View rootView;
     private String word;
 
     public AnimationTouchListener(WindowManager manager, View rootView, @NonNull ChoiceCallback callback) {
         Display display = manager.getDefaultDisplay();
-        btnCancel = rootView.findViewById(R.id.btnCancel);
-        btnOk = rootView.findViewById(R.id.btnOk);
+        this.rootView = rootView;
+        this.btnCancel = rootView.findViewById(R.id.btnCancel);
+        this.btnOk = rootView.findViewById(R.id.btnOk);
         btnCancel.setAlpha(0);
         btnOk.setAlpha(0);
 
-        TextView tvWord =(TextView)rootView.findViewById(R.id.tvCardWord);
+        TextView tvWord = (TextView) rootView.findViewById(R.id.tvCardWord);
         word = (String) (tvWord.getText());
-        tvWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DictionaryService service = ServiceGenerator.createService(DictionaryService.class);
-                Map<String, String> map = new HashMap<>();
-                map.put("key", AppConfig.DICTIONARY_API_KEY);
-                map.put("lang","en-ru");
-                map.put("text",word);
-                Call<Lookup> call = service.lookup(map);
-                call.enqueue(new Callback<Lookup>() {
-                    @Override
-                    public void onResponse(Call<Lookup> call, Response<Lookup> response) {
-                        Log.d(LOG_TAG, "Response : " + response.body());
 
-                        ((TextView)rootView.findViewById(R.id.tvCardWordTranslate)).setText(response.body().def.get(0).tr.get(0).text);
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Lookup> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
-
-            }
-        });
 
         Point size = new Point();
         display.getSize(size);
         this.callback = callback;
         this.screenCenterX = size.x / 2;
-        this.actionTrashHold = screenCenterX/2 + screenCenterX/4;
+        this.actionTrashHold = screenCenterX / 2 + screenCenterX / 4;
         this.isAnimationLocked = false;
     }
 
@@ -96,20 +74,18 @@ public class AnimationTouchListener implements View.OnTouchListener {
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if(isAnimationLocked){
+                if (isAnimationLocked) {
                     return true;
                 }
                 float viewPivot = v.getX() + v.getPivotX();
                 float dX = x0 - event.getRawX();
 
-                if(viewPivot > screenCenterX + actionTrashHold){
+                if (viewPivot > screenCenterX + actionTrashHold) {
                     successCallback();
-                }else if(viewPivot < screenCenterX - actionTrashHold){
+                } else if (viewPivot < screenCenterX - actionTrashHold) {
                     cancelCallback();
-                }
-                else{
+                } else {
                     v.animate()
-//                        .alpha(1-maptoAlfa(viewPivot))
                             .x(toDragViewStartX - dX)
                             .rotation(maptoRotation(viewPivot))
                             .setDuration(0)
@@ -137,25 +113,27 @@ public class AnimationTouchListener implements View.OnTouchListener {
 
     private void successCallback() {
         isAnimationLocked = true;
-        callback.success(word);
+        callback.result(new CardChoice(word, true));
     }
 
     private void cancelCallback() {
         isAnimationLocked = true;
-        callback.cancel(word);
+        callback.result(new CardChoice(word, false));
+
     }
 
     private float maptoAlfaOk(float viewPivot) {
-        if(viewPivot < screenCenterX){
+        if (viewPivot < screenCenterX) {
             return 0;
-        }else{
+        } else {
             return maptoAlfa(viewPivot);
         }
     }
+
     private float maptoAlfaCancel(float viewPivot) {
-        if(viewPivot > screenCenterX){
+        if (viewPivot > screenCenterX) {
             return 0;
-        }else{
+        } else {
             return maptoAlfa(viewPivot);
         }
     }

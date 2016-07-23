@@ -3,8 +3,8 @@ package ru.shmakova.hackathon.ui.touch;
 
 import java.io.Serializable;
 
-public interface ChoiceCallback extends Serializable{
-    void success(String word);
-    void cancel(String word);
+import ru.shmakova.hackathon.model.CardChoice;
 
+public interface ChoiceCallback extends Serializable{
+    void result(CardChoice choice);
 }

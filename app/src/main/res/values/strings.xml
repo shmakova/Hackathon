@@ -7,7 +7,8 @@
     <string name="forget">Забыл</string>
     <string name="remembered">Запомнил</string>
     <string name="cards_title">РАССОРТИРУЙТЕ КАРТОЧКИ</string>
-    <string name="cards_end_title">Повторение закончено!</string>
     <string name="say_word">Произнесите слово</string>
+    <string name="cards_end_title">Упражнение закончено!</string>
+    <string name="btn_ok">OK!</string>
 
 </resources>

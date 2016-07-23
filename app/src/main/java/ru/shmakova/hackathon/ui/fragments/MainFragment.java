@@ -30,7 +30,6 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
 
-
     private MainActivity activity;
 
     @NonNull
@@ -68,6 +67,5 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        activity.reset();
     }
 }
