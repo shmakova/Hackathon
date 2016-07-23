@@ -18,6 +18,8 @@ import ru.shmakova.hackathon.R;
 import ru.shmakova.hackathon.managers.DataManager;
 import ru.shmakova.hackathon.ui.activities.MainActivity;
 import ru.shmakova.hackathon.ui.adapters.WordsAdapter;
+import ru.shmakova.hackathon.utils.AppConfig;
+import ru.yandex.speechkit.SpeechKit;
 
 /**
  * Created by shmakova on 23.07.16.
@@ -28,6 +30,12 @@ public class PronunciationFragment extends BaseFragment {
     SwipeDeck cardStack;
 
     private MainActivity activity;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SpeechKit.getInstance().configure(getContext(), AppConfig.YANDEX_SPEECH_KIT_API_KEY);
+    }
 
     @NonNull
     @Override

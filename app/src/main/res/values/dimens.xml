@@ -26,6 +26,7 @@
     <dimen name="font_48">48sp</dimen>
 
     <dimen name="button_width">240dp</dimen>
+    <dimen name="cards_width">328dp</dimen>
     <dimen name="banner_height">192dp</dimen>
 
 </resources>

@@ -1,7 +1,6 @@
 package ru.shmakova.hackathon.ui.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ru.shmakova.hackathon.R;
+import ru.shmakova.hackathon.managers.VocalizerManager;
 
 /**
  * Created by shmakova on 23.07.16.
@@ -55,7 +55,7 @@ public class WordsAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String item = (String) getItem(position);
-                Log.i("MainActivity", item);
+                VocalizerManager.getInstance().vocalize(item);
             }
         });
 

@@ -25,6 +25,7 @@ ext.versions = [
         okhttp                       : '3.4.1',
         glide                        : '3.7.0',
         swipeDeck                    : '0.3.0',
+        speechKit                    : '2.5.0',
 
         supportLibs                  : '23.2.0',
         butterKnife                  : '8.2.1',
@@ -82,6 +83,7 @@ ext.libraries = [
         okhttpLogging           : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
         glide                   : "com.github.bumptech.glide:glide:$versions.glide",
         swipeDeck               : "com.daprlabs.aaron:cardstack:$versions.swipeDeck",
+        speechKit               : "com.yandex.android:speechkit:$versions.speechKit",
 
         // Developer Tools
         stetho                  : "com.facebook.stetho:stetho:$versions.stetho",

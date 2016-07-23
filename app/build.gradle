@@ -89,6 +89,7 @@ dependencies {
     compile libraries.okhttp
     compile libraries.glide
     compile libraries.okhttpLogging
+    compile libraries.speechKit
 
     testCompile libraries.junit
     testCompile libraries.robolectric
