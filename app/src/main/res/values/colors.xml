@@ -12,6 +12,8 @@
 
     <color name="dark_grey">#222222</color>
     <color name="light_grey">#FAFAFA</color>
+    <color name="grey">#777777</color>
+
     <color name="deleteButton">#fd676c</color>
     <color name="success">#0F0</color>
     <color name="cancel">#F00</color>

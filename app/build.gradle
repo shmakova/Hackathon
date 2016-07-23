@@ -96,6 +96,7 @@ dependencies {
     testCompile libraries.equalsVerifier
     testCompile libraries.mockitoCore
     testCompile libraries.devMetricsNoOp
+    testCompile libraries.swipeDeck
 
     androidTestCompile libraries.supportTestRunner
     androidTestCompile libraries.supportTestRules
@@ -109,6 +110,7 @@ dependencies {
     compile 'javax.annotation:javax.annotation-api:1.2'
     compile 'com.fasterxml.jackson.core:jackson-core:2.4.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.1'
+    compile 'com.daprlabs.aaron:cardstack:0.3.0'
 }
 
 configurations.all {

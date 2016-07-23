@@ -24,8 +24,9 @@ ext.versions = [
         gson                         : '2.6.2',
         okhttp                       : '3.4.1',
         glide                        : '3.7.0',
+        swipeDeck                    : '0.3.0',
 
-        supportLibs                  : '23.1.1',
+        supportLibs                  : '23.2.0',
         butterKnife                  : '8.2.1',
         timber                       : '4.1.2',
 
@@ -80,6 +81,7 @@ ext.libraries = [
         okhttp                  : "com.squareup.okhttp3:okhttp:$versions.okhttp",
         okhttpLogging           : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
         glide                   : "com.github.bumptech.glide:glide:$versions.glide",
+        swipeDeck               : "com.daprlabs.aaron:cardstack:$versions.swipeDeck",
 
         // Developer Tools
         stetho                  : "com.facebook.stetho:stetho:$versions.stetho",

@@ -1,16 +1,13 @@
 package ru.shmakova.hackathon.ui.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +20,6 @@ import ru.shmakova.hackathon.R;
 import ru.shmakova.hackathon.ui.activities.MainActivity;
 import ru.shmakova.hackathon.ui.adapters.MenuAdapter;
 import ru.shmakova.hackathon.utils.AppConfig;
-import timber.log.Timber;
 
 
 public class MainFragment extends BaseFragment {
@@ -55,7 +51,7 @@ public class MainFragment extends BaseFragment {
         MenuAdapter menuAdapter = new MenuAdapter(menuItems, new MenuAdapter.MenuViewHolder.OnItemCLickListener() {
             @Override
             public void onItemClick(int position) {
-                activity.menuClicked(position);
+                activity.onMenuItemClick(position);
             }
         });
         recyclerView.setAdapter(menuAdapter);

@@ -50,7 +50,9 @@
                         android:textColor="@color/dark_grey"
                         android:textAllCaps="true"
                         android:layout_gravity="bottom|center_horizontal"
-                        android:layout_marginBottom="@dimen/spacing_normal_16"/>
+                        android:layout_marginBottom="@dimen/spacing_normal_16"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true"/>
             </FrameLayout>
 
             <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"

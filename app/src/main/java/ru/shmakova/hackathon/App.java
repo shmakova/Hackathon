@@ -2,6 +2,8 @@ package ru.shmakova.hackathon;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import timber.log.Timber;
@@ -11,7 +13,8 @@ import timber.log.Timber;
  */
 
 public class App extends Application {
-
+    public static SharedPreferences sharedPreferences;
+    private static Context context;
     private ApplicationComponent applicationComponent;
 
     // Prevent need in a singleton (global) reference to the application object.
@@ -24,6 +27,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         applicationComponent = prepareApplicationComponent().build();
+        context = getApplicationContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
@@ -39,5 +44,13 @@ public class App extends Application {
     @NonNull
     public ApplicationComponent applicationComponent() {
         return applicationComponent;
+    }
+
+    public static SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }
