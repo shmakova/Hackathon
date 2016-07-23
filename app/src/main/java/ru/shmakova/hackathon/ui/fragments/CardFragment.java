@@ -14,8 +14,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import ru.shmakova.hackathon.R;
+import ru.shmakova.hackathon.ui.activities.MainActivity;
 import ru.shmakova.hackathon.ui.touch.AnimationTouchListener;
 import ru.shmakova.hackathon.ui.touch.ChoiceCallback;
+import timber.log.Timber;
 
 import static java.util.Arrays.asList;
 
@@ -37,6 +39,14 @@ public class CardFragment extends BaseFragment {
         ProgressBar pbWordsProgress = (ProgressBar) result.findViewById(R.id.pbWordsProgress);
 
         View toDrag = result.findViewById(R.id.toDrag);
+        View vCancel = result.findViewById(R.id.cancel);
+
+        vCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).reset();
+            }
+        });
 
         TextView tvWord = (TextView) toDrag.findViewById(R.id.tvCardWord);
         int wordNum;
@@ -54,6 +64,7 @@ public class CardFragment extends BaseFragment {
             pbWordsProgress.setMax(wordsTotal);
             pbWordsProgress.setProgress(wordNum);
             tvWord.setText(word);
+
         }
 
         toDrag.setOnTouchListener(

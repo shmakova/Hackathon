@@ -15,6 +15,7 @@ import java.util.List;
 
 import ru.shmakova.hackathon.App;
 import ru.shmakova.hackathon.R;
+import ru.shmakova.hackathon.model.CardChoice;
 import ru.shmakova.hackathon.model.WordsContainer;
 import ru.shmakova.hackathon.ui.fragments.CardFragment;
 import ru.shmakova.hackathon.ui.fragments.CardsResultFragment;
@@ -27,8 +28,8 @@ public class MainActivity extends BaseActivity implements ChoiceCallback {
 
     private int currentWordIndex;
     private WordsContainer allWords;
-    private List<String> currentCheckWords;
     private List<String> currentWords;
+    private ArrayList<CardChoice> cardChoices;
 
     @SuppressLint("InflateParams") // It's okay in our case.
     @Override
@@ -36,6 +37,7 @@ public class MainActivity extends BaseActivity implements ChoiceCallback {
         super.onCreate(savedInstanceState);
         App.get(this).applicationComponent().inject(this);
 
+        cardChoices = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         try {
             allWords = mapper.readValue(getResources().openRawResource(R.raw.words), WordsContainer.class);
@@ -71,15 +73,36 @@ public class MainActivity extends BaseActivity implements ChoiceCallback {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (currentWordIndex >= words.size()) {
-            ft.replace(R.id.main_frame_layout, new CardsResultFragment());
+            Fragment fragment = new CardsResultFragment();
+            Bundle args = new Bundle();
+            args.putInt(CardsResultFragment.ARG_WORDS, cardChoices.size());
+            args.putInt(CardsResultFragment.ARG_WORDS_KNOWN, getKnowsWords() );
+            fragment.setArguments(args);
+            ft.replace(R.id.main_frame_layout, fragment);
         } else {
             ft.replace(R.id.main_frame_layout, getWordFragment(currentWordIndex, words.size(), words.get(currentWordIndex)));
             currentWordIndex++;
         }
-        if(putToStack){
+        if (putToStack) {
             ft.addToBackStack(null);
         }
         ft.commit();
+    }
+
+    private int getKnowsWords() {
+        int counter = 0;
+        for (int i = 0; i < cardChoices.size(); i++) {
+            if(cardChoices.get(i).isSuccess()){
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    @Override
+    public void result(CardChoice choice) {
+        cardChoices.add(choice);
+        nextFragment(getCurrentWords(), true);
     }
 
     private Fragment getWordFragment(int wordNum, int wordsTotal, String word) {
@@ -92,19 +115,15 @@ public class MainActivity extends BaseActivity implements ChoiceCallback {
         return fragment;
     }
 
-    @Override
-    public void success(String word) {
-        nextFragment(getCurrentWords(), false);
-    }
-
-    @Override
-    public void cancel(String word) {
-        nextFragment(getCurrentWords(), false);
-    }
 
     public void reset() {
         currentWordIndex = 0;
         currentWords = null;
+        cardChoices = new ArrayList<>();
+        FragmentManager fm = getSupportFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
 
     public List<String> getCurrentWords() {
@@ -117,7 +136,6 @@ public class MainActivity extends BaseActivity implements ChoiceCallback {
 
     private List<String> randomWords(List<String> allWords, int count) {
         List<String> result = new ArrayList<>();
-        int allWordsSize = allWords.size();
         for (int i = 0; i < count; i++) {
             addWord(allWords, result);
         }
@@ -136,4 +154,6 @@ public class MainActivity extends BaseActivity implements ChoiceCallback {
             addWord(all, result);
         }
     }
+
+
 }
