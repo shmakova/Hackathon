@@ -11,6 +11,7 @@ import java.util.List;
 
 import ru.shmakova.hackathon.R;
 import ru.shmakova.hackathon.managers.VocalizerManager;
+import timber.log.Timber;
 
 /**
  * Created by shmakova on 23.07.16.
@@ -55,6 +56,7 @@ public class WordsAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String item = (String) getItem(position);
+                Timber.d(item);
                 VocalizerManager.getInstance().vocalize(item);
             }
         });
