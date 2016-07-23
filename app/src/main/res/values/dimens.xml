@@ -23,4 +23,6 @@
     <dimen name="font_small_16">16sp</dimen>
 
     <dimen name="button_width">240dp</dimen>
+    <dimen name="banner_height">192dp</dimen>
+
 </resources>

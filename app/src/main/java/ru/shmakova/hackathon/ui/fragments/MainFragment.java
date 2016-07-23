@@ -1,10 +1,16 @@
 package ru.shmakova.hackathon.ui.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +29,11 @@ import timber.log.Timber;
 public class MainFragment extends BaseFragment {
     @BindView(R.id.main_menu)
     RecyclerView recyclerView;
+    @BindView(R.id.main_coordinator_container)
+    CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+
 
     @NonNull
     @Override
@@ -33,6 +44,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setupToolbar();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         List<String> menuItems = Arrays.asList(AppConfig.menuItems);
@@ -46,4 +58,11 @@ public class MainFragment extends BaseFragment {
     }
 
 
+    private void setupToolbar() {
+        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+    }
 }
