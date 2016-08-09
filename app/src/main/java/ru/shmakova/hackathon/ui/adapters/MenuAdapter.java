@@ -19,6 +19,7 @@ import ru.shmakova.hackathon.R;
  */
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> {
+    // Лучше было бы сделать модель для item'ов меню. Например, enum'ами! И передавать в листнер именно их.
     private List<String> menuItems;
     private MenuViewHolder.OnItemCLickListener onItemClickListener;
 
@@ -58,6 +59,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
         @OnClick(R.id.menu_item)
         public void onMenuItemClick(View view) {
+            // Очень рекомендую вооружиться support аннотациями, чтобы не проверять подобное.
+            // Ведь вы знаете, что тут не должно быть null, вот и покажите через @NonNull, что
+            // клиенту не следует передавать null в аргументе
             if (listener != null) {
                 listener.onItemClick(getAdapterPosition());
             }
