@@ -13,6 +13,7 @@ import timber.log.Timber;
  */
 
 public class App extends Application {
+    // Public лишний
     public static SharedPreferences sharedPreferences;
     private static Context context;
     private ApplicationComponent applicationComponent;
@@ -47,6 +48,8 @@ public class App extends Application {
     public ApplicationComponent applicationComponent() {
         return applicationComponent;
     }
+    
+    // Все, что ниже также можно было бы в даггер вынести.
 
     public StatsHandler getStatsHandler(){
         return statsHandler;
