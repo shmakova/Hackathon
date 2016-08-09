@@ -14,6 +14,9 @@ import ru.shmakova.hackathon.R;
 import ru.shmakova.hackathon.ui.activities.MainActivity;
 
 public class CardsResultFragment extends BaseFragment {
+    
+    // Статический фактори метод принимающий аргументы был бы лучше опуюличенных констант
+    // Также присмотритесь к библиотеке FragmentArgs
 
     public static final String ARG_WORDS = "words_count";
     public static final String ARG_WORDS_KNOWN = "words_count_known";
