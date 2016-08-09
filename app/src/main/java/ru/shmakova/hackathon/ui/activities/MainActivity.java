@@ -20,6 +20,7 @@ public class MainActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
         App.get(this).applicationComponent().inject(this);
 
+        // setContentView(R.layout.activity_main)?
         setContentView(getLayoutInflater().inflate(R.layout.activity_main, null));
 
         if (savedInstanceState == null) {
@@ -32,6 +33,7 @@ public class MainActivity extends BaseActivity  {
 
     @Override
     protected void onResume() {
+        // В таком случае и переопределять не надо.
         super.onResume();
     }
 
@@ -40,6 +42,8 @@ public class MainActivity extends BaseActivity  {
      * @param position
      */
     public void onMenuItemClick(int position) {
+        // Тут лучше наверно было бы оперировать некими ID.
+        // Что если у вас кнопки поменяются местами, или список станет гридом?
         switch (position) {
             case 0:
                 getSupportFragmentManager()
