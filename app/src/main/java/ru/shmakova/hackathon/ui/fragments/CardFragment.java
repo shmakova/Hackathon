@@ -84,6 +84,8 @@ public class CardFragment extends BaseFragment implements ChoiceCallback {
         tvWord.setText(currentWords.get(currentWordIndex));
 
         vCancel.setOnClickListener(v -> {
+            // Я бы избегал управления фрагментами напрямую из фрагментов, если речь не о дочерних фрагментах.
+            // Посмотрите паттер Mediator
                 fm.beginTransaction()
                         .replace(R.id.main_frame_layout, new MainFragment())
                         .commit();
@@ -91,6 +93,7 @@ public class CardFragment extends BaseFragment implements ChoiceCallback {
 
 
         tvWord.setOnClickListener(v -> {
+            // Создаем каждый раз?
             DictionaryService service = ServiceGenerator.createService(DictionaryService.class);
             Map<String, String> map = new HashMap<>();
             map.put("key", AppConfig.DICTIONARY_API_KEY);

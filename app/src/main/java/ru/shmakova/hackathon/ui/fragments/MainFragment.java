@@ -54,6 +54,9 @@ public class MainFragment extends BaseFragment {
                     .addToBackStack(null)
                     .commit();
         });
+        // Вот это лучше перенести в onAttach, там проверять на instanceof и падать, если условие не удовлетворяется
+        // Если пойти дальше, то фрагмент должен определять интерфейс, который хост должен реализовывать.
+        // Приводить тогда нужно к этому интерфейсу. Это одно из проявлений Dependency inversion principle.
         activity = ((MainActivity) getActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -76,6 +79,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void onResume() {
+        // Опять же лишнее переопределение
         super.onResume();
     }
 }

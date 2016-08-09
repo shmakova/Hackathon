@@ -11,7 +11,11 @@ import ru.shmakova.hackathon.utils.AppConfig;
  * Created by shmakova on 22.07.16.
  */
 
+// Обычно такая штука называется factory.
 public class ServiceGenerator {
+    
+    // Тут опять же даггер хорошо пошел бы.
+    
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Retrofit.Builder builder = new Retrofit.Builder()

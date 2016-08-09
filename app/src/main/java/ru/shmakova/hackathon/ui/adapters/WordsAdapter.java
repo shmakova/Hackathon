@@ -17,6 +17,7 @@ import timber.log.Timber;
  * Created by shmakova on 23.07.16.
  */
 
+// ViewHolder никто не отменял даже для AdapterView'шных адаптеров (sic!)
 public class WordsAdapter extends BaseAdapter {
     private List<String> words;
     private Context context;

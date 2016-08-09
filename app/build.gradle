@@ -110,6 +110,7 @@ dependencies {
         exclude module: 'support-v4'
     }
     compile 'javax.annotation:javax.annotation-api:1.2'
+    // Jackson и GSON одновременно? Количество зависимостей нужно стараться уменьшить
     compile 'com.fasterxml.jackson.core:jackson-core:2.4.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.1'
     compile 'com.daprlabs.aaron:cardstack:0.3.0'

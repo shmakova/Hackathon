@@ -35,6 +35,8 @@ public class PreferenceManager {
             try {
                 wordsContainer = mapper.readValue(App.getContext().getResources().openRawResource(R.raw.words), WordsContainer.class);
             } catch (IOException e) {
+                // Почему бы не бросать RuntimeException, такого ведь не может произойти?
+                // А если может, то можно определить свое исключение и бросать - пусть клиенты думают, что с ним делать
                 e.printStackTrace();
             }
 
