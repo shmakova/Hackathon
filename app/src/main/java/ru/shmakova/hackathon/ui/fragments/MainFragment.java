@@ -1,5 +1,6 @@
 package ru.shmakova.hackathon.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,7 +33,11 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.btnSettings)
     ImageButton btnSettings;
 
-    private MainActivity activity;
+    private OnMenuItemClickListener onMenuItemClickListener;
+
+    public interface OnMenuItemClickListener {
+        void onMenuItemClick(String item);
+    }
 
     @NonNull
     @Override
@@ -50,15 +55,15 @@ public class MainFragment extends BaseFragment {
                     .addToBackStack(null)
                     .commit();
         });
-        activity = ((MainActivity) getActivity());
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-
         List<String> menuItems = Arrays.asList(getResources().getStringArray(R.array.menu_items));
 
-        MenuAdapter menuAdapter = new MenuAdapter(menuItems, p -> {
-            activity.onMenuItemClick(p);
+        MenuAdapter menuAdapter = new MenuAdapter(menuItems, text -> {
+            onMenuItemClickListener.onMenuItemClick(text);
         });
+
         recyclerView.setAdapter(menuAdapter);
     }
 
@@ -72,7 +77,20 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (!(getActivity() instanceof OnMenuItemClickListener)) {
+            throw new ClassCastException(getActivity().toString() + " must implement " +
+                    OnMenuItemClickListener.class.getName());
+        }
+
+        onMenuItemClickListener = (OnMenuItemClickListener) getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        onMenuItemClickListener = null;
     }
 }

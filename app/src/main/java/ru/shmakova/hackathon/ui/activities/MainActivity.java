@@ -10,7 +10,7 @@ import ru.shmakova.hackathon.ui.fragments.CardFragment;
 import ru.shmakova.hackathon.ui.fragments.MainFragment;
 import ru.shmakova.hackathon.ui.fragments.PronunciationFragment;
 
-public class MainActivity extends BaseActivity  {
+public class MainActivity extends BaseActivity implements MainFragment.OnMenuItemClickListener  {
     @SuppressLint("InflateParams") // It's okay in our case.
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class MainActivity extends BaseActivity  {
      * Opens fragment
      * @param item
      */
+    @Override
     public void onMenuItemClick(String item) {
         if (item.equals(getString(R.string.cards))) {
             getSupportFragmentManager()
