@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ru.shmakova.hackathon.R;
 import ru.shmakova.hackathon.managers.VocalizerManager;
 import timber.log.Timber;
@@ -45,22 +47,30 @@ public class WordsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
 
-        if (v == null){
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);;
+        if (v == null) {
+            LayoutInflater inflater =
+                    (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.item_word, parent, false);
         }
 
-        ((TextView) v.findViewById(R.id.word)).setText(words.get(position));
+        WordsViewHolder viewHolder = new WordsViewHolder(v);
+        viewHolder.txtItem.setText(words.get(position));
 
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String item = (String) getItem(position);
-                Timber.d(item);
-                VocalizerManager.getInstance().vocalize(item);
-            }
+        v.setOnClickListener(v1 -> {
+            String item = (String) getItem(position);
+            Timber.d(item);
+            VocalizerManager.getInstance().vocalize(item);
         });
 
         return v;
+    }
+
+    static class WordsViewHolder {
+        @BindView(R.id.word)
+        TextView txtItem;
+
+        WordsViewHolder(View itemView) {
+            ButterKnife.bind(this, itemView);
+        }
     }
 }
