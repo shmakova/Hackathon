@@ -1,5 +1,7 @@
 package ru.shmakova.hackathon.ui.adapters;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,8 +25,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     private List<String> menuItems;
     private MenuViewHolder.OnItemCLickListener onItemClickListener;
 
-    public MenuAdapter(List<String> menuItems, MenuViewHolder.OnItemCLickListener onItemClickListener) {
-        this.menuItems = menuItems;
+    public MenuAdapter(Context context, MenuViewHolder.OnItemCLickListener onItemClickListener) {
+        this.menuItems = Arrays.asList(context.getApplicationContext().getResources()
+                .getStringArray(R.array.menu_items));
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -48,24 +52,23 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         @BindView(R.id.menu_item_text)
         TextView menuItemText;
 
+        @NonNull
         private OnItemCLickListener listener;
 
-        public MenuViewHolder(View itemView, OnItemCLickListener OnItemClickListener) {
+        public interface OnItemCLickListener {
+            void onItemClick(String text);
+        }
+
+        MenuViewHolder(View itemView, @NonNull OnItemCLickListener OnItemClickListener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             listener = OnItemClickListener;
         }
 
         @OnClick(R.id.menu_item)
-        public void onMenuItemClick(View view) {
-            if (listener != null) {
-                TextView textView = (TextView) view.findViewById(R.id.menu_item_text);
-                listener.onItemClick(textView.getText().toString());
-            }
-        }
-
-        public interface OnItemCLickListener {
-            void onItemClick(String text);
+        void onMenuItemClick(View view) {
+            TextView textView = (TextView) view.findViewById(R.id.menu_item_text);
+            listener.onItemClick(textView.getText().toString());
         }
     }
 }

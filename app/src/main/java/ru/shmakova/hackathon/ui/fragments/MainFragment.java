@@ -14,9 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import java.util.Arrays;
-import java.util.List;
-
 import butterknife.BindView;
 import ru.shmakova.hackathon.R;
 import ru.shmakova.hackathon.ui.activities.MainActivity;
@@ -49,20 +46,16 @@ public class MainFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupToolbar();
-        btnSettings.setOnClickListener(v ->{
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.main_frame_layout, new SettingsFragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
+        btnSettings.setOnClickListener(v -> getFragmentManager().beginTransaction()
+                .replace(R.id.main_frame_layout, new SettingsFragment())
+                .addToBackStack(null)
+                .commit());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        List<String> menuItems = Arrays.asList(getResources().getStringArray(R.array.menu_items));
 
-        MenuAdapter menuAdapter = new MenuAdapter(menuItems, text -> {
-            onMenuItemClickListener.onMenuItemClick(text);
-        });
+        MenuAdapter menuAdapter = new MenuAdapter(getContext(),
+                text -> onMenuItemClickListener.onMenuItemClick(text));
 
         recyclerView.setAdapter(menuAdapter);
     }

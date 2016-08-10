@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnMenuIte
 
     /**
      * Opens fragment
-     * @param item
+     * @param item text of menu item
      */
     @Override
     public void onMenuItemClick(String item) {
