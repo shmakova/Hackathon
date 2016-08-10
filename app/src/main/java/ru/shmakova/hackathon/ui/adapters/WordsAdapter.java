@@ -13,7 +13,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.shmakova.hackathon.R;
 import ru.shmakova.hackathon.managers.VocalizerManager;
-import timber.log.Timber;
 
 /**
  * Created by shmakova on 23.07.16.
@@ -58,7 +57,6 @@ public class WordsAdapter extends BaseAdapter {
 
         v.setOnClickListener(v1 -> {
             String item = (String) getItem(position);
-            Timber.d(item);
             VocalizerManager.getInstance().vocalize(item);
         });
 
