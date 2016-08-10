@@ -13,5 +13,22 @@
     <string name="result_message">Вы запомнили %1$s из %2$s</string>
     <string name="setting_toolbar_title">Настройки</string>
     <string name="stats_title">Сегодня повторялись слова:</string>
+    <string name="words_pronunciation">Проговаривание слов</string>
+    <string name="rumor">Слово на слух</string>
+    <string name="pair_search">Поиск пары</string>
+    <string name="words_drawing">Составление слова</string>
+    <string name="correct">Верно – Неверно</string>
+    <string name="translation_choice">Выбор перевода</string>
+    <string name="picture_translation">Перевод по картинке</string>
+
+    <string-array name="menu_items">
+        <item>@string/cards</item>
+        <item>@string/words_pronunciation</item>
+        <item>@string/rumor</item>
+        <item>@string/pair_search</item>
+        <item>@string/words_drawing</item>
+        <item>@string/translation_choice</item>
+        <item>@string/picture_translation</item>
+    </string-array>
 
 </resources>

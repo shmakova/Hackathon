@@ -59,12 +59,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         @OnClick(R.id.menu_item)
         public void onMenuItemClick(View view) {
             if (listener != null) {
-                listener.onItemClick(getAdapterPosition());
+                TextView textView = (TextView) view.findViewById(R.id.menu_item_text);
+                listener.onItemClick(textView.getText().toString());
             }
         }
 
         public interface OnItemCLickListener {
-            void onItemClick(int position);
+            void onItemClick(String text);
         }
     }
 }
